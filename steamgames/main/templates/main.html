@@ -1,0 +1,119 @@
+{% extends 'base.html' %}
+{% block title %}Inicio{% endblock %}
+
+{% block content %}
+<style>
+    .hero-section {
+        background: linear-gradient(to right, #4e54c8, #8f94fb);
+        color: white;
+        text-align: center;
+        padding: 60px 20px;
+        border-radius: 10px;
+        margin-bottom: 30px;
+    }
+
+    .hero-section h1 {
+        font-size: 2.5rem;
+        margin-bottom: 10px;
+    }
+
+    .hero-section p {
+        font-size: 1.2rem;
+        margin-bottom: 20px;
+    }
+
+    .hero-section .btn {
+        margin-top: 10px;
+    }
+
+    .features-section {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        justify-content: center;
+        margin-top: 40px;
+    }
+
+    .feature-card {
+        text-align: center;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        background-color: #fff;
+        max-width: 300px;
+    }
+
+    .feature-card i {
+        font-size: 2.5rem;
+        margin-bottom: 10px;
+        color: #4e54c8;
+    }
+
+    .feature-card h5 {
+        font-size: 1.2rem;
+        margin-bottom: 10px;
+    }
+
+    .feature-card p {
+        font-size: 0.9rem;
+        color: #666;
+    }
+
+    .intro-footer {
+        text-align: center;
+        margin-top: 50px;
+        font-size: 1rem;
+        color: #555;
+    }
+</style>
+
+<!-- Hero Section -->
+<section class="hero-section text-center py-5">
+    <h1>🎮 Bienvenido a GOG Juegos</h1>
+    <p>
+        Explora, filtra y descubre una amplia selección de juegos adaptados a tus preferencias. 
+        Con sistemas avanzados de búsqueda, filtrado por precio y recomendaciones inteligentes, 
+        siempre encontrarás el juego perfecto para ti.
+    </p>
+
+    {% if hay_juegos %}
+        <!-- Si hay juegos disponibles -->
+        <a href="{% url 'juegos' %}" class="btn btn-primary btn-lg mt-3">Explorar Juegos</a>
+    {% else %}
+        <!-- Si no hay juegos disponibles -->
+        <p class="alert alert-warning mt-4">
+            🚨 Actualmente no hay juegos disponibles. Por favor, realiza un scraping 
+            para obtener los juegos más recientes.
+        </p>
+    {% endif %}
+</section>
+
+<!-- Características Principales -->
+<section class="features-section">
+    <div class="feature-card">
+        <i class="fas fa-search"></i>
+        <h5>Búsqueda Avanzada</h5>
+        <p>Encuentra juegos por nombre o precio con filtros precisos y potentes.</p>
+    </div>
+    <div class="feature-card">
+        <i class="fas fa-star"></i>
+        <h5>Recomendaciones Personalizadas</h5>
+        <p>Descubre juegos similares basados en géneros y etiquetas.</p>
+    </div>
+    <div class="feature-card">
+        <i class="fas fa-chart-line"></i>
+        <h5>Ordena por Preferencias</h5>
+        <p>Clasifica juegos por popularidad, precio o fecha de lanzamiento más reciente.</p>
+    </div>
+    <div class="feature-card">
+        <i class="fas fa-database"></i>
+        <h5>Datos Actualizados</h5>
+        <p>Información en tiempo real con opciones de scraping manual para siempre tener datos frescos.</p>
+    </div>
+</section>
+
+<!-- Footer de Introducción -->
+<div class="intro-footer">
+    <p>¿Listo para comenzar tu aventura? Haz clic en el botón de arriba y descubre el mundo de GOG Juegos.</p>
+</div>
+{% endblock %}

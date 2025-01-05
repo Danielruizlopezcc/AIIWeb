@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+{% block title %}Scraping Manual{% endblock %}
+
+{% block content %}
+<style>
+    /* --- Pantalla de Carga --- */
+    .loading-screen {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(255, 255, 255, 0.95);
+        z-index: 9999;
+        display: none; /* Oculta inicialmente */
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    }
+
+    .loading-screen .spinner {
+        border: 8px solid #f3f3f3;
+        border-top: 8px solid #007bff;
+        border-radius: 50%;
+        width: 60px;
+        height: 60px;
+        animation: spin 1s linear infinite;
+    }
+
+    .loading-screen p {
+        margin-top: 20px;
+        font-size: 1.2rem;
+        color: #555;
+    }
+
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+
+    /* --- Contenedor Principal --- */
+    .scraping-container {
+        text-align: center;
+        margin: 50px auto;
+        max-width: 600px;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        background-color: #fff;
+    }
+
+    .scraping-container h1 {
+        margin-bottom: 20px;
+        font-size: 2rem;
+    }
+
+    .scraping-container p {
+        margin-bottom: 30px;
+        font-size: 1.1rem;
+        color: #555;
+    }
+
+    .scraping-container .btn-primary {
+        font-size: 1.2rem;
+        padding: 10px 20px;
+    }
+</style>
+
+
+<!-- 🔄 Pantalla de Carga -->
+<div class="loading-screen" id="loading-screen">
+    <div class="spinner"></div>
+    <p>🔄 Por favor espera, el scraping está en progreso...</p>
+</div>
+
+<!-- 📜 JavaScript -->
+<script>
+    document.getElementById('scraping-form').addEventListener('submit', function(event) {
+        event.preventDefault(); // Evita el envío tradicional del formulario
+
+        const loadingScreen = document.getElementById('loading-screen');
+        loadingScreen.style.display = 'flex'; // Muestra la pantalla de carga
+
+        fetch("{% url 'scraping_manual' %}", {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': '{{ csrf_token }}',
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => {
+            if (response.ok) {
+                window.location.href = "{% url 'juegos' %}";
+            } else {
+                throw new Error('Error en el scraping');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            loadingScreen.style.display = 'none';
+            alert('❌ Ha ocurrido un error durante el scraping.');
+        });
+    });
+</script>
+{% endblock %}

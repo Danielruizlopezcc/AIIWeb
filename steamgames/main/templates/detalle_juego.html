@@ -1,0 +1,331 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ juego.nombre }}{% endblock %}
+
+{% block content %}
+<style>
+    /* --- FONDO GLOBAL --- */
+    
+    .contenido-principal {
+        background-color: rgba(255, 255, 255, 0.542);
+        border-radius: 10px;
+        margin: 30px auto;
+        padding: 20px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        max-width: 1200px;
+    }
+
+    /* --- ENCABEZADO CON IMAGEN PRINCIPAL --- */
+    .detalle-header {
+        position: relative;
+        height: 500px;
+        background: url('{{ juego.imagen_principal }}') no-repeat center center/cover;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        color: white;
+        border-radius: 10px;
+        overflow: hidden;
+    }
+
+    .detalle-header::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(to bottom, rgba(0,0,0,0.6), rgba(0,0,0,0.9));
+        z-index: 1;
+    }
+
+    .detalle-header .header-content {
+        position: relative;
+        z-index: 2;
+    }
+
+    .detalle-header h1 {
+        font-size: 2.5rem;
+        margin-bottom: 10px;
+    }
+
+    .detalle-header p {
+        font-size: 1.2rem;
+    }
+
+    /* --- INFORMACIÓN DEL JUEGO --- */
+    .game-info {
+        background-color: #fff;
+        padding: 30px;
+        margin: 30px auto;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        max-width: 800px;
+    }
+
+    .game-info h3 {
+        margin-bottom: 20px;
+    }
+
+    .game-info p {
+        margin: 10px 0;
+        text-align: center;
+    }
+
+    .game-info .badge-container {
+    margin-top: 10px;
+    justify-content: center; /* Asegura que las etiquetas también estén centradas */
+}
+
+    .badge-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    justify-content: center; /* Alineación a la izquierda */
+    margin-top: 5px;
+    align-items: center;
+    }  
+
+    .badge {
+    background-color: #e0e0e0;
+    color: #333;
+    padding: 4px 8px;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    text-align: center;
+    white-space: nowrap; /* Evita que las etiquetas se dividan en varias líneas */
+    flex-shrink: 0; /* Evita que las etiquetas se reduzcan demasiado */
+}
+
+    /* --- GALERÍA MULTIMEDIA --- */
+    .multimedia-slider {
+        margin: 30px 0;
+        overflow: hidden;
+        position: relative;
+        width: 90%;
+        margin: 0 auto;
+    }
+
+    .multimedia-slider .slides {
+        display: flex;
+        transition: transform 0.5s ease-in-out;
+    }
+
+    .multimedia-slider .slides img {
+        max-width: 25%;
+        border-radius: 8px;
+        margin: 5px;
+    }
+
+    .slider-btn {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background-color: rgba(0, 0, 0, 0.5);
+        color: white;
+        border: none;
+        cursor: pointer;
+        z-index: 5;
+        font-size: 1.5rem;
+        padding: 5px 10px;
+    }
+
+    .slider-btn.left {
+        left: 10px;
+    }
+
+    .slider-btn.right {
+        right: 10px;
+    }
+
+    /* --- BOTÓN DE VOLVER --- */
+    .detalle-footer {
+        margin: 50px 0;
+        text-align: center;
+    }
+
+    /* --- SECCIÓN DE RECOMENDACIONES --- */
+    /* --- ESTILOS PARA LAS TARJETAS DE RECOMENDACIONES --- */
+.recommendations .card-body {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Alinea el contenido a la izquierda */
+    gap: 10px;
+}
+
+.recommendations .badge-container {
+    display: flex;
+    flex-wrap: wrap; /* Permite que las etiquetas pasen a la siguiente línea */
+    gap: 5px; /* Espacio entre etiquetas */
+    justify-content: flex-start; /* Alineación a la izquierda */
+    margin-top: 5px;
+    align-items: center; /* Centra verticalmente las etiquetas en su línea */
+}
+
+.recommendations .badge {
+    background-color: #e0e0e0;
+    color: #333;
+    padding: 4px 8px;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    text-align: center;
+    white-space: nowrap; /* Evita que las etiquetas se dividan en varias líneas */
+    flex-shrink: 0; /* Evita que las etiquetas se reduzcan demasiado */
+}
+
+/* Ajustar el espacio y la altura dinámica de las tarjetas */
+.recommendations .card {
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+/* Botón de detalles alineado abajo */
+.recommendations .card-footer {
+    margin-top: auto;
+    text-align: center;
+}
+
+
+</style>
+
+<!-- 🌟 Contenedor General -->
+<div class="contenido-principal">
+
+    <!-- 📸 Encabezado con Imagen de Fondo -->
+    <div class="detalle-header">
+        <div class="header-content">
+            <h1>{{ juego.nombre }}</h1>
+            <p>⭐ {{ juego.valoracion }}/5</p>
+        </div>
+    </div>
+
+    <!-- 📝 Información del Juego -->
+    <div class="container game-info mt-4">
+        <h3 class="text-center">INFORMACION GENERAL</h3>
+        <p><strong>Precio:</strong> {{ juego.precio }}€</p>
+        <p><strong>Fecha de lanzamiento:</strong> {{ juego.fecha_lanzamiento }}</p>
+        <p><strong>Tamaño:</strong> {{ juego.tamaño }}</p>
+
+        <p><strong>Géneros:</strong></p>
+        <div class="badge-container">
+            {% for genero in juego.genero %}
+                <span class="badge">{{ genero }}</span>
+            {% endfor %}
+        </div>
+
+        <p><strong>Etiquetas:</strong></p>
+        <div class="badge-container">
+            {% for etiqueta in juego.etiquetas %}
+                <span class="badge">{{ etiqueta }}</span>
+            {% endfor %}
+        </div>
+        
+        <br>
+        
+        <a href="{{ juego.url }}" target="_blank" rel="noopener noreferrer" class="btn btn-primary mt-2">
+            Visitar Página Oficial
+        </a>
+
+    </div>
+
+    <!-- 🎥 Galería Multimedia -->
+    <h3 class="text-center mt-5">GALERIA MULTIMEDIA</h3>
+    <div class="multimedia-slider">
+        <button class="slider-btn left" onclick="moverSlide(-1)">&#10094;</button>
+        <div class="slides">
+            {% for img in juego.multimedia %}
+                <img src="{{ img }}" alt="Multimedia del juego">
+            {% endfor %}
+        </div>
+        <button class="slider-btn right" onclick="moverSlide(1)">&#10095;</button>
+    </div>
+
+    <!-- 🔗 SECCIÓN DE RECOMENDACIONES -->
+    <h3 class="text-center mt-5">TOP 5 JUEGOS MÁS PARECIDOS POR GÉNERO</h3>
+    <div class="container recommendations">
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+            {% for reco in recomendaciones_genres %}
+            <div class="col">
+                <div class="card h-100 shadow-sm">
+                    <img src="{{ reco.imagen_principal }}" alt="{{ reco.nombre }}" class="card-img-top" style="height: 180px; object-fit: cover;">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ reco.nombre }}</h5>
+                        <p class="card-text">
+                            <strong>Valoración:</strong> {{ reco.valoracion }} ⭐<br>
+                            <strong>Precio:</strong> {{ reco.precio }}€<br>
+                        </p>
+                        <p><strong>Géneros:</strong></p>
+                        <div class="badge-container">
+                            {% for genero in reco.genero %}
+                                <span class="badge">{{ genero }}</span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="card-footer text-center">
+                        <a href="{% url 'detalle_juego' reco.id %}" class="btn btn-primary btn-sm">Ver Detalles</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+
+    <h3 class="text-center mt-5">TOP 5 JUEGOS MÁS PARECIDOS POR ETIQUETA</h3>
+    <div class="container recommendations">
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+            {% for reco in recomendaciones_etiqueta %}
+            <div class="col">
+                <div class="card h-100 shadow-sm">
+                    <img src="{{ reco.imagen_principal }}" alt="{{ reco.nombre }}" class="card-img-top" style="height: 180px; object-fit: cover;">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ reco.nombre }}</h5>
+                        <p class="card-text">
+                            <strong>Valoración:</strong> {{ reco.valoracion }} ⭐<br>
+                            <strong>Precio:</strong> {{ reco.precio }}€<br>
+                        </p>
+                        <p><strong>Etiquetas:</strong></p>
+                        <div class="badge-container">
+                            {% for etiqueta in reco.etiquetas %}
+                                <span class="badge">{{ etiqueta }}</span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="card-footer text-center">
+                        <a href="{% url 'detalle_juego' reco.id %}" class="btn btn-primary btn-sm">Ver Detalles</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+
+
+
+
+
+</div>
+
+<!-- JavaScript para el Slider -->
+<script>
+    let index = 0;
+
+    function moverSlide(step) {
+        const slides = document.querySelector('.slides');
+        const totalSlides = document.querySelectorAll('.slides img').length;
+        const maxIndex = Math.max(0, totalSlides - 4);
+
+        index += step;
+
+        if (index < 0) index = 0;
+        if (index > maxIndex) index = maxIndex;
+
+        slides.style.transform = `translateX(-${index * 25}%)`;
+    }
+</script>
+{% endblock %}
