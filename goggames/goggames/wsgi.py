@@ -1,5 +1,5 @@
 """
-WSGI config for steamgames project.
+WSGI config for goggames project.
 
 It exposes the WSGI callable as a module-level variable named ``application``.
 
@@ -11,6 +11,6 @@ import os
 
 from django.core.wsgi import get_wsgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'steamgames.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'goggames.settings')
 
 application = get_wsgi_application()
