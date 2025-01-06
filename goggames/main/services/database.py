@@ -1,14 +1,9 @@
 import sqlite3
 from datetime import datetime
 
-# ----------------------------
-# 📊 CONFIGURACIÓN DE LA BASE DE DATOS
-# ----------------------------
+
 DB_NAME = "gog_games.db"
 
-# ----------------------------
-# 🛠️ FUNCIONES DE LA BASE DE DATOS
-# ----------------------------
 
 def conectar_bd():
     """Establece y devuelve una conexión con la base de datos."""
@@ -58,7 +53,7 @@ def almacenar_juego_bd(juego):
                 juego['genero'],
                 juego['etiquetas'],
                 juego['multimedia'],
-                juego['imagen_principal'],  # Nuevo campo añadido
+                juego['imagen_principal'],
                 juego['url']
             ))
         conn.commit()

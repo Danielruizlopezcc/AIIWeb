@@ -3,14 +3,10 @@ from bs4 import BeautifulSoup
 from datetime import datetime
 import re
 
-# Encabezados para la solicitud HTTP
 HEADERS = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.0.0 Safari/537.36"
 }
 
-# ----------------------------
-# 🌐 FUNCIONES DE SCRAPING
-# ----------------------------
 
 def extraer_urls_juegos(pagina=1):
     """
@@ -106,10 +102,8 @@ def extraer_detalles_juego(url):
         multimedia = [thumb.get("src") for thumb in soup.find_all("img", class_="productcard-thumbnails-slider__image")]
         multimedia = ",".join(multimedia) if multimedia else "Desconocido"
 
-        # 📸 **Imagen Principal desde el Slider**
         imagen_principal = None
 
-        # Busca el contenedor que tiene la imagen principal
         slider_div = soup.find("div", class_=re.compile(r"mobile-slider__slide.*gog-slider__item.*"))
 
         if slider_div:
@@ -126,7 +120,6 @@ def extraer_detalles_juego(url):
         else:
             print("⚠️ No se encontró slider_div")
 
-        # Fallback si no encuentra la imagen principal
         if not imagen_principal:
             imagen_principal = "https://via.placeholder.com/480x270?text=No+Image"
 

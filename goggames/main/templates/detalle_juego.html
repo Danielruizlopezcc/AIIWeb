@@ -4,7 +4,6 @@
 
 {% block content %}
 <style>
-    /* --- FONDO GLOBAL --- */
     
     .contenido-principal {
         background-color: rgba(255, 255, 255, 0.542);
@@ -15,7 +14,6 @@
         max-width: 1200px;
     }
 
-    /* --- ENCABEZADO CON IMAGEN PRINCIPAL --- */
     .detalle-header {
         position: relative;
         height: 500px;
@@ -54,7 +52,6 @@
         font-size: 1.2rem;
     }
 
-    /* --- INFORMACIÓN DEL JUEGO --- */
     .game-info {
         background-color: #fff;
         padding: 30px;
@@ -76,14 +73,14 @@
 
     .game-info .badge-container {
     margin-top: 10px;
-    justify-content: center; /* Asegura que las etiquetas también estén centradas */
+    justify-content: center; 
 }
 
     .badge-container {
     display: flex;
     flex-wrap: wrap;
     gap: 5px;
-    justify-content: center; /* Alineación a la izquierda */
+    justify-content: center; 
     margin-top: 5px;
     align-items: center;
     }  
@@ -95,11 +92,10 @@
     border-radius: 15px;
     font-size: 0.8rem;
     text-align: center;
-    white-space: nowrap; /* Evita que las etiquetas se dividan en varias líneas */
-    flex-shrink: 0; /* Evita que las etiquetas se reduzcan demasiado */
+    white-space: nowrap; 
+    flex-shrink: 0; 
 }
 
-    /* --- GALERÍA MULTIMEDIA --- */
     .multimedia-slider {
         margin: 30px 0;
         overflow: hidden;
@@ -140,28 +136,26 @@
         right: 10px;
     }
 
-    /* --- BOTÓN DE VOLVER --- */
     .detalle-footer {
         margin: 50px 0;
         text-align: center;
     }
 
-    /* --- SECCIÓN DE RECOMENDACIONES --- */
-    /* --- ESTILOS PARA LAS TARJETAS DE RECOMENDACIONES --- */
+
 .recommendations .card-body {
     display: flex;
     flex-direction: column;
-    align-items: flex-start; /* Alinea el contenido a la izquierda */
+    align-items: flex-start; 
     gap: 10px;
 }
 
 .recommendations .badge-container {
     display: flex;
-    flex-wrap: wrap; /* Permite que las etiquetas pasen a la siguiente línea */
-    gap: 5px; /* Espacio entre etiquetas */
-    justify-content: flex-start; /* Alineación a la izquierda */
+    flex-wrap: wrap; 
+    gap: 5px;
+    justify-content: flex-start; 
     margin-top: 5px;
-    align-items: center; /* Centra verticalmente las etiquetas en su línea */
+    align-items: center;
 }
 
 .recommendations .badge {
@@ -171,11 +165,11 @@
     border-radius: 15px;
     font-size: 0.8rem;
     text-align: center;
-    white-space: nowrap; /* Evita que las etiquetas se dividan en varias líneas */
-    flex-shrink: 0; /* Evita que las etiquetas se reduzcan demasiado */
+    white-space: nowrap; 
+    flex-shrink: 0; 
 }
 
-/* Ajustar el espacio y la altura dinámica de las tarjetas */
+
 .recommendations .card {
     height: auto;
     display: flex;
@@ -183,7 +177,6 @@
     justify-content: space-between;
 }
 
-/* Botón de detalles alineado abajo */
 .recommendations .card-footer {
     margin-top: auto;
     text-align: center;
@@ -192,10 +185,8 @@
 
 </style>
 
-<!-- 🌟 Contenedor General -->
 <div class="contenido-principal">
 
-    <!-- 📸 Encabezado con Imagen de Fondo -->
     <div class="detalle-header">
         <div class="header-content">
             <h1>{{ juego.nombre }}</h1>
@@ -203,7 +194,6 @@
         </div>
     </div>
 
-    <!-- 📝 Información del Juego -->
     <div class="container game-info mt-4">
         <h3 class="text-center">INFORMACION GENERAL</h3>
         <p><strong>Precio:</strong> {{ juego.precio }}€</p>
@@ -232,7 +222,6 @@
 
     </div>
 
-    <!-- 🎥 Galería Multimedia -->
     <h3 class="text-center mt-5">GALERIA MULTIMEDIA</h3>
     <div class="multimedia-slider">
         <button class="slider-btn left" onclick="moverSlide(-1)">&#10094;</button>
@@ -244,7 +233,6 @@
         <button class="slider-btn right" onclick="moverSlide(1)">&#10095;</button>
     </div>
 
-    <!-- 🔗 SECCIÓN DE RECOMENDACIONES -->
     <h3 class="text-center mt-5">TOP 5 JUEGOS MÁS PARECIDOS POR GÉNERO</h3>
     <div class="container recommendations">
         <div class="row row-cols-1 row-cols-md-3 g-4">
@@ -311,7 +299,6 @@
 
 </div>
 
-<!-- JavaScript para el Slider -->
 <script>
     let index = 0;
 

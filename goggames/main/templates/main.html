@@ -67,7 +67,6 @@
     }
 </style>
 
-<!-- Hero Section -->
 <section class="hero-section text-center py-5">
     <h1>🎮 Bienvenido a GOG Juegos</h1>
     <p>
@@ -77,10 +76,8 @@
     </p>
 
     {% if hay_juegos %}
-        <!-- Si hay juegos disponibles -->
         <a href="{% url 'juegos' %}" class="btn btn-primary btn-lg mt-3">Explorar Juegos</a>
     {% else %}
-        <!-- Si no hay juegos disponibles -->
         <p class="alert alert-warning mt-4">
             🚨 Actualmente no hay juegos disponibles. Por favor, realiza un scraping 
             para obtener los juegos más recientes.
@@ -88,7 +85,6 @@
     {% endif %}
 </section>
 
-<!-- Características Principales -->
 <section class="features-section">
     <div class="feature-card">
         <i class="fas fa-search"></i>
@@ -112,7 +108,6 @@
     </div>
 </section>
 
-<!-- Footer de Introducción -->
 <div class="intro-footer">
     <p>¿Listo para comenzar tu aventura? Haz clic en el botón de arriba y descubre el mundo de GOG Juegos.</p>
 </div>

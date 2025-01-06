@@ -3,9 +3,6 @@ from whoosh.fields import Schema, TEXT, NUMERIC, DATETIME, ID, KEYWORD
 from datetime import datetime
 import os
 
-# ----------------------------
-# 📚 ESQUEMA DE WHOOSH
-# ----------------------------
 schema = Schema(
     nombre=TEXT(stored=True),
     precio=NUMERIC(stored=True, decimal_places=2),
@@ -20,9 +17,6 @@ schema = Schema(
 )
 
 
-# ----------------------------
-# 🔧 INICIALIZAR ÍNDICE
-# ----------------------------
 def inicializar_indice():
     """
     Inicializa o abre un índice Whoosh para los juegos.
@@ -33,9 +27,7 @@ def inicializar_indice():
     return index.open_dir("indexdir")
 
 
-# ----------------------------
-# 📥 INDEXAR JUEGO
-# ----------------------------
+
 def indexar_juego(writer, juego):
     """
     Añade un juego al índice Whoosh.

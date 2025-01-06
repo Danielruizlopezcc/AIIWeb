@@ -10,9 +10,7 @@ import sqlite3
 from .services.recommendations import recommend_with_combinations
 from django.http import JsonResponse
 
-# ----------------------------
-# 🏠 Página Principal
-# ----------------------------
+
 def main(request):
     try:
         conn = sqlite3.connect("gog_games.db")
@@ -27,22 +25,18 @@ def main(request):
     return render(request, 'main.html', {'hay_juegos': hay_juegos})
 
 
-# ----------------------------
-# 🎮 Juegos Disponibles
-# ----------------------------
+
 
 def juegos(request):
     try:
         conn = sqlite3.connect("gog_games.db")
         cursor = conn.cursor()
 
-        # 🛠️ Obtener parámetros de ordenación y filtros
         orden = request.GET.get('orden', '-------')
         termino_busqueda = request.GET.get('buscar', '').strip()
         precio_min = request.GET.get('precio_min', '').strip()
         precio_max = request.GET.get('precio_max', '').strip()
 
-        # 🛠️ Crear cláusulas ORDER BY dinámicas
         if orden == 'populares':
             orden_sql = 'CAST(valoracion AS FLOAT) DESC'
         elif orden == 'precio_asc':
@@ -54,7 +48,6 @@ def juegos(request):
         else:
             orden_sql = 'CAST(valoracion AS FLOAT) DESC'
 
-        # 🛠️ Crear cláusulas WHERE dinámicas
         where_clauses = []
         params = []
 
@@ -99,7 +92,6 @@ def juegos(request):
 
         where_clause = "WHERE " + " AND ".join(where_clauses) if where_clauses else ""
 
-        # 📝 Consulta SQL
         query = f"""
             SELECT id, nombre, precio, valoracion, fecha_lanzamiento, tamaño, genero, etiquetas, imagen_principal
             FROM juegos
@@ -115,7 +107,6 @@ def juegos(request):
     finally:
         conn.close()
     
-    # 📦 Procesar los datos
     juegos_lista = []
     for juego in juegos_raw:
         fecha_lanzamiento = None
@@ -146,12 +137,11 @@ def juegos(request):
             'precio_max': precio_max,
         })
     
-    # 📑 Paginación
     paginator = Paginator(juegos_lista, 48)
     pagina = request.GET.get('page')
     juegos_paginados = paginator.get_page(pagina)
     
-    # 📤 Renderizar la plantilla
+    # 📤 Renderizar la 
     return render(request, 'juegos.html', {
         'juegos': juegos_paginados,
         'orden': orden,
@@ -161,16 +151,12 @@ def juegos(request):
     })
 
 
-# ----------------------------
-# 🔄 Vista para mostrar la página principal del scraping
-# ----------------------------
+
 def scraping(request):
     return render(request, 'scraping.html')
 
 
-# ----------------------------
-# 🔄 Vista para procesar el scraping de manera asíncrona
-# ----------------------------
+
 def scraping_manual(request):
     if request.method == 'POST' and request.headers.get('x-requested-with') == 'XMLHttpRequest':
         try:
@@ -178,7 +164,6 @@ def scraping_manual(request):
             ix = inicializar_indice()
             writer = ix.writer()
 
-            # Extraer juegos de las páginas 1 a 5
             for pagina in range(1, 6):
                 print(f"🌍 Procesando página {pagina}...")
                 urls = extraer_urls_juegos(pagina)
@@ -196,39 +181,33 @@ def scraping_manual(request):
             print(f"❌ Error durante el scraping: {e}")
             return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
     
-    # Para solicitudes GET
     return render(request, 'scraping_manual.html')
 
 
 
 def detalle_juego(request, juego_id):
     try:
-        # 📊 Conexión a la base de datos
         conn = sqlite3.connect("gog_games.db")
         cursor = conn.cursor()
         
-        # 🔍 Obtener datos del juego principal
         cursor.execute("SELECT * FROM juegos WHERE id=?", (juego_id,))
         juego = cursor.fetchone()
         
         if not juego:
             return redirect('juegos')
 
-        # 📊 Obtener recomendaciones por género
         recomendaciones_genres = recommend_with_combinations(
             game_id=juego_id,
             attribute='genero',
             top_n=5
         ).to_dict(orient='records')
 
-        # 📊 Obtener recomendaciones por etiquetas
         recomendaciones_etiqueta = recommend_with_combinations(
             game_id=juego_id,
             attribute='etiquetas',
             top_n=5
         ).to_dict(orient='records')
 
-        # 🔄 Consultar detalles completos para recomendaciones
         recomendaciones_genres_completas = []
         for reco in recomendaciones_genres:
             cursor.execute("SELECT id, nombre, precio, valoracion, genero, etiquetas, imagen_principal FROM juegos WHERE id=?", (reco['id'],))
@@ -265,16 +244,14 @@ def detalle_juego(request, juego_id):
     finally:
         conn.close()
 
-    # 🌍 Intentar configurar locale a español
     try:
-        locale.setlocale(locale.LC_TIME, 'es_ES.UTF-8')  # Unix/Linux/MacOS
+        locale.setlocale(locale.LC_TIME, 'es_ES.UTF-8')  
     except locale.Error:
         try:
-            locale.setlocale(locale.LC_TIME, 'es_ES')  # Windows
+            locale.setlocale(locale.LC_TIME, 'es_ES')  
         except locale.Error:
             print("⚠️ No se pudo configurar locale a español. Usando por defecto.")
 
-    # 📅 Formatear la fecha de lanzamiento
     fecha_lanzamiento = None
     if juego[4]:
         try:

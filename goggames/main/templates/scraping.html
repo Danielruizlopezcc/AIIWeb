@@ -3,7 +3,6 @@
 
 {% block content %}
 <style>
-    /* --- Pantalla de Carga --- */
     .loading-screen {
         position: fixed;
         top: 0;
@@ -12,7 +11,7 @@
         height: 100%;
         background: rgba(255, 255, 255, 0.95);
         z-index: 9999;
-        display: none; /* Oculta inicialmente */
+        display: none; 
         justify-content: center;
         align-items: center;
         flex-direction: column;
@@ -38,7 +37,6 @@
         100% { transform: rotate(360deg); }
     }
 
-    /* --- Contenedor Principal --- */
     .scraping-container {
         text-align: center;
         margin: 50px auto;
@@ -66,20 +64,17 @@
     }
 </style>
 
-<!-- 🚀 Sección Principal -->
 <div class="scraping-container">
     <h1>🛠️ Scraping Manual</h1>
     <p>Haz clic en el botón para iniciar el scraping manual.</p>
     <button id="start-scraping" class="btn btn-primary">Iniciar Scraping</button>
 </div>
 
-<!-- 🔄 Pantalla de Carga -->
 <div class="loading-screen" id="loading-screen">
     <div class="spinner"></div>
     <p>🔄 Por favor espera, el scraping está en progreso...</p>
 </div>
 
-<!-- 📜 JavaScript -->
 <script>
     document.getElementById('start-scraping').addEventListener('click', function () {
         const loadingScreen = document.getElementById('loading-screen');

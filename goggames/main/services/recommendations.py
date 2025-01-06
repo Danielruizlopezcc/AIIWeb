@@ -2,9 +2,7 @@ import sqlite3
 import pandas as pd
 from itertools import combinations
 
-# ---------------------------
-# 📊 Cargar Juegos
-# ---------------------------
+
 def load_games():
     """Cargar los datos de juegos desde SQLite con preprocesamiento."""
     conn = sqlite3.connect('gog_games.db')
@@ -15,7 +13,6 @@ def load_games():
     df = pd.read_sql_query(query, conn)
     conn.close()
     
-    # Preprocesar géneros y etiquetas como conjuntos
     df = df.dropna(subset=['genero', 'etiquetas'])
     df['genero'] = df['genero'].apply(lambda x: set(x.split(',')) if isinstance(x, str) else set())
     df['etiquetas'] = df['etiquetas'].apply(lambda x: set(x.split(',')) if isinstance(x, str) else set())
@@ -23,9 +20,7 @@ def load_games():
     return df
 
 
-# ---------------------------
-# 🧠 Lógica de Combinaciones
-# ---------------------------
+
 def recommend_with_combinations(game_id, attribute='genero', top_n=5):
     """Recomendar juegos por combinaciones de atributos."""
     df = load_games()
@@ -45,10 +40,8 @@ def recommend_with_combinations(game_id, attribute='genero', top_n=5):
     
     recommendations = pd.DataFrame()
     
-    # Buscar coincidencias exactas
     recommendations = df[df[attribute] == current_attributes]
     
-    # Buscar combinaciones si no hay suficientes
     if len(recommendations) < top_n:
         for i in range(len(current_attributes) - 1, 0, -1):
             for combo in combinations(current_attributes, i):
@@ -62,7 +55,6 @@ def recommend_with_combinations(game_id, attribute='genero', top_n=5):
             if len(recommendations) >= top_n:
                 break
     
-    # Excluir el juego actual y ordenar
     recommendations = recommendations[recommendations['id'] != game_id]
     recommendations = recommendations.sort_values(
         by=['valoracion', 'precio'],
